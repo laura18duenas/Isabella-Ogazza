@@ -29,37 +29,19 @@
    <body>
       <!-- Loader -->
       <!-- START PRELOADER AREA-->
-      <div class="preloader-area" style="background-image: url('img/Fundo\ princesa\ ursinha.jpg'); background-size: cover; background-position: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-         <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="loader"></div>
-         </div>
-      </div>
-      <!-- END PRELOADER AREA -->
-      <!-- Modal musica fondo -->
-      <div id="modalMusica" class="modal fade" tabindex="-1" style="background-image: url('img/Fundo\ princesa\ ursinha.jpg'); background-size: cover; background-position: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content" >
-               <picture>
-                  <!-- <source type="image/webp" srcset="https://fixdate.io/modelo-invitacion/74/img/adorno-modal-musica.webp"> -->
-                  <source type="image/png" srcset="img/flores_Grupo04.png">
-                  <img class="adorno adorno-1" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1000" data-aos-once="false" src="img/flores_Grupo04.png" alt="" loading="">
-               </picture>
-               <div class="modal-body text-center">
-                  <p>
-                     Mis 15 años       </p>
-           
-                   <h3 class="nombre" style="font-size: 80px;margin-top: 15px;">
-                     Isabella      </h3>
-                 
-                  <span>La música de fondo es parte de la experiencia</span>
-                  <br>
-                  <br>
-                  <a class="boton" id="play-music-modal" href="">Ingresar con música</a>
-                  <a class="boton" data-dismiss="modal" aria-label="Close" id="" href="">Ingresar sin música</a>
-               </div>
-            </div>
-         </div>
-      </div>
+        <div id="intro" class="intro-container">
+  <div class="overlay">
+    <button id="verInvitacion" class="btn-dorado">
+      Ver invitación
+    </button>
+  </div>
+</div>
+
+<div id="videoContainer" class="video-container">
+  <video id="videoIntro" autoplay muted playsinline>
+    <source src="galeria/vd.mp4" type="video/mp4">
+  </video>
+</div>
       <!-- Portada -->
       <section class="portada">
          <div class="d-md-flex">
@@ -1333,6 +1315,54 @@
          animGaleria.play();
       </script>
       <!-- Animacion Musica -->
+
+      <!-- para video -->
+     <script>
+  let playerReady = false;
+  let playPending = false;
+
+  const btn = document.getElementById("verInvitacion");
+  const intro = document.getElementById("intro");
+  const videoContainer = document.getElementById("videoContainer");
+  const video = document.getElementById("videoIntro");
+
+  // Función para intentar reproducir la música de YouTube
+  function playMusic() {
+    if (playerReady && typeof player !== 'undefined') {
+      player.playVideo();
+      // También actualizamos el icono de música si existe
+      $('#play-pause-music').attr('data-estado-music', 'play');
+      if (typeof animMusicAnimIcon !== 'undefined') {
+        animMusicAnimIcon.play();
+      }
+    } else {
+      playPending = true;
+    }
+  }
+
+  btn.addEventListener("click", function () {
+    // 1. Ocultar intro y mostrar video local
+    intro.style.display = "none";
+    videoContainer.style.display = "block";
+    
+    // 2. Reproducir video local
+    video.play();
+    
+    // 3. Reproducir música de fondo (YouTube)
+    playMusic();
+  });
+
+  // Cuando termina el video de intro
+  video.onended = function () {
+    videoContainer.style.display = "none";
+
+    // Mostrar portada principal
+    document.querySelector(".portada").style.display = "block";
+    
+    // OPCIONAL: Si quieres que la música siga sonando al terminar el video, 
+    // no toques nada. Si quieres que se pause, añade: player.pauseVideo();
+  };
+</script>
       <script>
          let svgContainerMusica = document.querySelector('.anim-musica');
          

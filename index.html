@@ -31,6 +31,9 @@
       <!-- START PRELOADER AREA-->
         <div id="intro" class="intro-container">
   <div class="overlay">
+    <p id="lugares-texto" style="font-size: 40px; color: #000000; font-family: 'Cookie', cursive;">
+      Hemos reservado 1 lugar en tu honor.
+  </p>
     <button id="verInvitacion" class="btn-dorado">
       Ver invitación
     </button>
@@ -173,7 +176,6 @@
                   <div class="info-box">
                      <h6>Fecha</h6>
                      <p>Viernes 08 de Mayo</p>
-                                          <p>Esta invitación ha sido especialmente reservada para una (1) o dos (2) personas.</p>
 
                      <a href="#" class="boton addeventatc">
                         <span class="nameBtn">Agendar</span>
@@ -2203,4 +2205,33 @@
          });
       </script>
    </body>
+   <script>
+   // Función para obtener parámetro de URL
+   function obtenerParametroURL(parametro) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(parametro);
+   }
+
+   // Función para actualizar texto según número de lugares
+   function actualizarLugares() {
+      const nameParam = obtenerParametroURL('name');
+      const textoElement = document.getElementById('lugares-texto');
+      
+      if (nameParam && textoElement) {
+         // Convertir a número (001 -> 1, 002 -> 2, etc.)
+         const numero = parseInt(nameParam, 10);
+         
+         // Verificar que está en rango válido (1-5)
+         if (numero >= 1 && numero <= 5) {
+            const texto = numero === 1 
+               ? 'Hemos reservado 1 lugar en tu honor.'
+               : 'Hemos reservado ' + numero + ' lugares en tu honor.';
+            textoElement.textContent = texto;
+         }
+      }
+   }
+
+   // Ejecutar cuando el DOM esté listo
+   document.addEventListener('DOMContentLoaded', actualizarLugares);
+   </script>
 </html>
